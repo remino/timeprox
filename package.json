@@ -1,0 +1,24 @@
+{
+  "name": "timeprox",
+  "version": "0.1.0",
+  "description": "HTTP proxy to the Wayback Machine (web.archive.org) for retro browsers",
+  "author": "Rémi (https://remino.net)",
+  "license": "ISC",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node app.js"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "http-proxy": "^1.18.1",
+    "node-fetch": "^2.6.0",
+    "pem": "^1.14.4"
+  }
+}
