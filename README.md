@@ -1,6 +1,9 @@
 timeprox
 ========
 
+https://remino.net/retrosurfing/
+https://github.com/remino/timeprox
+
 Node.js HTTP proxy to the [Wayback Machine](https://web.archive.org) for retro browsers. By [remino](https://github.com/remino).
 
 ![Screenshot](screenshot.png)
