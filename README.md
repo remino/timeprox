@@ -1,7 +1,7 @@
 timeprox
 ========
 
-https://remino.net/retrosurfing/
+https://remino.net/retrosurfing/  
 https://github.com/remino/timeprox
 
 Node.js HTTP proxy to the [Wayback Machine](https://web.archive.org) for retro browsers. By [remino](https://github.com/remino).
@@ -16,7 +16,7 @@ Accessing the modern Web via an old browser typically doesn't work. Most sites r
 
 In other words, a retro OS and a retro browser need a retro Web. This is when _timeprox_ comes in.
 
-Simply have Node 12 or later installed, clone this repo, do `npm install` to install the requirements, then `npm start` to start. This will launch an HTTP proxy at port 3000. Set up your retro browser to use that proxy then browse the Web as you normally would.
+Simply have Node 12 or later installed, clone this repo, do `npm install` to install the requirements, then `npm start` to start. This will launch an HTTP proxy at port 3000. Set up your retro browser to use that proxy then browse the Web as you normally would. Now you're not only surfing, you're [_retrosurfing!_](https://remino.net/retrosurfing/)
 
 By default, pages will be loaded from what was cached in 1998 or later, if there's anything. If nothing is found, you'll get a really boring 404 page.
 
