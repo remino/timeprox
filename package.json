@@ -1,6 +1,6 @@
 {
   "name": "timeprox",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "HTTP proxy to the Wayback Machine (web.archive.org) for retro browsers",
   "author": "Rémi (https://remino.net)",
   "license": "ISC",
@@ -17,7 +17,9 @@
     "nodemon": "^2.0.4"
   },
   "dependencies": {
+    "charset": "^1.0.1",
     "http-proxy": "^1.18.1",
+    "iconv-lite": "^0.5.1",
     "node-fetch": "^2.6.0",
     "pem": "^1.14.4"
   }

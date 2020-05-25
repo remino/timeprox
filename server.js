@@ -1,5 +1,7 @@
+const charset = require('charset')
 const fetch = require('node-fetch')
 const http = require('http')
+const { decode, encode } = require('iconv-lite')
 
 const port = 3000
 const year = 1998
@@ -55,11 +57,28 @@ const isFetchResText = fetchRes => {
     .find(type => isStartOf(type, contentType))
 }
 
-const isFetchResTs404 = fetchRes => fetchRes.headers.raw()['x-ts'][0] === '404'
+const isFetchResTs404 = fetchRes => fetchRes.headers.get('x-ts') === '404'
 
 const isFetchResYear = (setYear, fetchRes) => isStartOf(
   `/web/${setYear}`, (new URL(fetchRes.url)).pathname,
 )
+
+const setContentType = (fetchRes, res) => {
+  const { headers } = fetchRes
+  const contentType = headers.get('content-type')
+
+  if (!contentType) {
+    const guessedContentType = headers.get('x-archive-guessed-content-type')
+    const guessedCharset = headers.get('x-archive-guessed-charset')
+    const mimeCharset = guessedCharset ? `; charset=${guessedCharset}` : ''
+
+    if (guessedContentType && guessedCharset) {
+      res.setHeader('content-type', `${guessedContentType}${mimeCharset}`)
+    }
+  }
+
+  res.setHeader('content-type', res.getHeader('content-type')[0].replace('_', '-'))
+}
 
 const setHeaders = (fetchRes, req, res) => {
   const headers = fetchRes.headers.raw()
@@ -68,19 +87,28 @@ const setHeaders = (fetchRes, req, res) => {
     if (['content-encoding', 'link', 'transfer-encoding'].includes(name)) return
     if ([/^x-archive-(?!orig)/].find(r => r.test(name))) return
     res.setHeader(name.replace(/^x-archive-orig-/, ''), headers[name])
-    res.setHeader(`x-${proxyName}-archive-url`, fetchRes.url)
-    res.setHeader(`x-${proxyName}-request-time`, formatDate())
-    res.setHeader(`x-${proxyName}-request-url`, req.url)
   })
+
+  res.setHeader(`x-${proxyName}-archive-url`, fetchRes.url)
+  res.setHeader(`x-${proxyName}-request-time`, formatDate())
+  res.setHeader(`x-${proxyName}-request-url`, req.url)
+  setContentType(fetchRes, res)
 }
 
 const sendBody = (fetchRes, res) => {
-  if (!isFetchResText(fetchRes)) {
-    fetchRes.buffer().then(body => res.end(body))
-    return
-  }
+  fetchRes.buffer().then(body => {
+    if (!isFetchResText(fetchRes)) {
+      res.end(body)
+      return
+    }
 
-  fetchRes.text().then(body => res.end(filterBody(body)))
+    const contentType = res.getHeader('content-type')
+    const bodyCharset = charset(contentType) || 'utf8'
+    const src = decode(body, bodyCharset)
+    const filtered = filterBody(src)
+    const resBody = encode(filtered, bodyCharset)
+    res.end(resBody, bodyCharset)
+  })
 }
 
 const notFound = res => res.writeHead(404).end(`${proxyName}: Not Found`)
