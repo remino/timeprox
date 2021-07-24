@@ -21,3 +21,20 @@ Simply have Node 12 or later installed, clone this repo, do `npm install` to ins
 By default, pages will be loaded from what was cached in 1998 or later, if there's anything. If nothing is found, you'll get a really boring 404 page.
 
 The year is hardcoded, but feel free to change it and experiement. If there's anything you'd like to contribute, feel free to submit a pull request.
+
+## Docker
+
+This is also available on Docker:
+
+```
+docker run remino/timeprox
+```
+
+The proxy server uses port 3000 by default.
+
+Thanks to [kcleong](https://github.com/kcleong) for the Dockerfile.
+
+## Contributing
+
+You know the drill. If you have anything you wish to contribute to this repo or something you want to fix, feel free to fork this repo and send a PR. I'll get to it... eventually.
+
