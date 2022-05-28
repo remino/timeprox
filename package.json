@@ -1,6 +1,6 @@
 {
   "name": "timeprox",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "homepage": "https://github.com/remino/timeprox#readme",
   "description": "HTTP proxy to the Wayback Machine (web.archive.org) for retro browsers",
   "author": "Rémi (https://remino.net)",
