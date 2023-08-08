@@ -1,5 +1,5 @@
 const charset = require('charset')
-const fetch = require('node-fetch')
+const fetch = require('node-fetch-cjs')
 const http = require('http')
 const { decode, encode } = require('iconv-lite')
 

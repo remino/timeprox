@@ -21,7 +21,7 @@
     "charset": "^1.0.1",
     "http-proxy": "^1.18.1",
     "iconv-lite": "^0.5.1",
-    "node-fetch": "^3.2.10",
+    "node-fetch-cjs": "^3.2.10",
     "pem": "^1.14.4"
   }
 }
