@@ -2,8 +2,8 @@ const charset = require('charset')
 const http = require('http')
 const { decode, encode } = require('iconv-lite')
 
-const port = 3000
-const year = 1998
+const port = process.env.PORT || 3000
+const year = process.env.ARCHIVE_YEAR || 1998
 const proxyName = 'timeprox'
 
 process.on('uncaughtException', e => { console.error(e) })
