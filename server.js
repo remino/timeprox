@@ -1,5 +1,4 @@
 const charset = require('charset')
-const fetch = require('node-fetch-cjs')
 const http = require('http')
 const { decode, encode } = require('iconv-lite')
 
@@ -52,7 +51,7 @@ const filterBody = body => body
 const isStartOf = (substr, str) => str.toString().slice(0, substr.length) === substr
 
 const isFetchResText = fetchRes => {
-  const contentType = fetchRes.headers.raw()['content-type']
+  const contentType = fetchRes.headers.get('content-type')
   return !!['text/html', 'text/plain']
     .find(type => isStartOf(type, contentType))
 }
@@ -77,11 +76,11 @@ const setContentType = (fetchRes, res) => {
     }
   }
 
-  res.setHeader('content-type', res.getHeader('content-type')[0].replace('_', '-'))
+  res.setHeader('content-type', contentType)
 }
 
 const setHeaders = (fetchRes, req, res) => {
-  const headers = fetchRes.headers.raw()
+  const headers = fetchRes.headers.entries()
 
   Object.keys(headers).forEach(name => {
     if (['content-encoding', 'link', 'transfer-encoding'].includes(name)) return
@@ -95,29 +94,39 @@ const setHeaders = (fetchRes, req, res) => {
   setContentType(fetchRes, res)
 }
 
-const sendBody = (fetchRes, res) => {
-  fetchRes.buffer().then(body => {
-    if (!isFetchResText(fetchRes)) {
-      res.end(body)
-      return
-    }
+const sendBody = async (fetchRes, res) => {
+  const body = await fetchRes.text();
 
-    const contentType = res.getHeader('content-type')
-    const bodyCharset = charset(contentType) || 'utf8'
-    const src = decode(body, bodyCharset)
-    const filtered = filterBody(src)
-    const resBody = encode(filtered, bodyCharset)
-    res.end(resBody, bodyCharset)
-  })
+  if (!isFetchResText(fetchRes)) {
+    res.end(body)
+    return
+  }
+
+  const contentType = res.getHeader('content-type')
+  const bodyCharset = charset(contentType) || 'utf8'
+  // Need to rewrite this to use decodeStream instead but we need to know the
+  // charset from the response. Chicken and egg.
+  // https://github.com/pillarjs/iconv-lite/wiki/Use-Buffers-when-decoding
+  const src = decode(body, bodyCharset)
+  const filtered = filterBody(src)
+  const resBody = encode(filtered, bodyCharset)
+  res.end(resBody, bodyCharset)
 }
 
-const notFound = res => res.writeHead(404).end(`${proxyName}: Not Found`)
-const serverError = (res, e) => res.writeHead(500).end(`${proxyName}: Server Error\n\n${e}`)
+const notFound = (res, url) => {
+  console.error('Not Found', url)
+  return res.writeHead(404).end(`${proxyName}: Not Found`)
+}
+
+const serverError = (res, e) => {
+  console.error(e)
+  return res.writeHead(500).end(`${proxyName}: Server Error\n\n${e}`)
+}
 
 const server = http.createServer((req, res) => {
   fetch(arcUrl(req.url)).then(fetchRes => {
     log(`${req.url} => ${fetchRes.url}`)
-    if (isFetchResTs404(fetchRes)) return notFound(res)
+    if (isFetchResTs404(fetchRes)) return notFound(res, fetchRes.url)
     // if (!isFetchResYear(year, fetchRes)) return notFound(res)
     setHeaders(fetchRes, req, res)
     return sendBody(fetchRes, res)
