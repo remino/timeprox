@@ -95,12 +95,13 @@ const setHeaders = (fetchRes, req, res) => {
 }
 
 const sendBody = async (fetchRes, res) => {
+  const body = Buffer.from(await fetchRes.arrayBuffer())
+
   if (!isFetchResText(fetchRes)) {
-    res.end(Buffer.from(await fetchRes.arrayBuffer()))
+    res.end(body)
     return
   }
 
-  const body = await fetchRes.text();
   const contentType = res.getHeader('content-type')
   const bodyCharset = charset(contentType) || 'utf8'
   // Need to rewrite this to use decodeStream instead but we need to know the
