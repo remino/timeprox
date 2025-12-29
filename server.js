@@ -43,8 +43,7 @@ const arcUrl = url => {
 }
 
 const filterBody = body => body
-  .replace(/https?:\/\/web\.archive\.org/g, '')
-  .replace(/\/web\/\d+(im_|fw_)?\/?/g, '')
+  .replace(/https:\/\/web\.archive\.org\//ig, 'http://web.archive.org/')
   .replace(/^[\s\t\r\n]+</i, '<')
   .replace(/(<head[^>]*>)(.|[\r\n])*<!-- End Wayback Rewrite JS Include -->/i, '$1')
   .replace(/(<html[^>]*>)(.|[\r\n])*<!-- End Wayback Rewrite JS Include -->/i, '$1')
