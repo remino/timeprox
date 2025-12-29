@@ -127,7 +127,6 @@ const server = http.createServer((req, res) => {
   fetch(arcUrl(req.url)).then(fetchRes => {
     log(`${req.url} => ${fetchRes.url}`)
     if (isFetchResTs404(fetchRes)) return notFound(res, fetchRes.url)
-    // if (!isFetchResYear(year, fetchRes)) return notFound(res)
     setHeaders(fetchRes, req, res)
     return sendBody(fetchRes, res)
   }).catch(e => serverError(res, e))
