@@ -103,14 +103,14 @@ const sendBody = async (fetchRes, res) => {
   }
 
   const contentType = res.getHeader('content-type')
-  const bodyCharset = charset(contentType) || 'utf8'
+  const bodyCharset = fetchRes.headers.get('x-archive-guessed-charset') || 'utf8'
   // Need to rewrite this to use decodeStream instead but we need to know the
   // charset from the response. Chicken and egg.
   // https://github.com/pillarjs/iconv-lite/wiki/Use-Buffers-when-decoding
   const src = decode(body, bodyCharset)
   const filtered = filterBody(src)
-  const resBody = encode(filtered, bodyCharset)
-  res.end(resBody, bodyCharset)
+  const resBody = encode(filtered, 'utf8')
+  res.end(resBody, 'utf8')
 }
 
 const notFound = (res, url) => {
