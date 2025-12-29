@@ -3,8 +3,9 @@ const http = require('http')
 const { decode, encode } = require('iconv-lite')
 
 const port = process.env.PORT || 3000
-const year = process.env.ARCHIVE_YEAR || 1998
+const time = process.env.ARCHIVE_TIME || ''
 const proxyName = 'timeprox'
+const timeFallback = '19980101000000'
 
 process.on('uncaughtException', e => { console.error(e) })
 process.on('unhandledRejection', e => { throw e })
@@ -38,7 +39,7 @@ const arcUrl = url => {
   const { pathname } = new URL(url)
   return /^\/web\/\d+(im_)?\//.test(pathname)
     ? `https://web.archive.org${pathname}`
-    : `https://web.archive.org/web/${year}0101/${url}`
+    : `https://web.archive.org/web/${time}${timeFallback.slice(time.length)}/${url}`
 }
 
 const filterBody = body => body
