@@ -49,7 +49,7 @@ const filterBody = body => body
   .replace(/(<head[^>]*>)(.|[\r\n])*<!-- End Wayback Rewrite JS Include -->/i, '$1')
   .replace(/(<html[^>]*>)(.|[\r\n])*<!-- End Wayback Rewrite JS Include -->/i, '$1')
 
-const isStartOf = (substr, str) => str.toString().slice(0, substr.length) === substr
+const isStartOf = (substr, str) => `${str || ''}`.slice(0, substr.length) === substr
 
 const isFetchResText = fetchRes => {
   const contentType = fetchRes.headers.get('content-type')
