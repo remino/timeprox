@@ -37,13 +37,14 @@ const log = msg => {
 
 const arcUrl = url => {
   const { pathname } = new URL(url)
-  return /^\/web\/\d+(im_)?\//.test(pathname)
+  return /^\/web\/\d+((fw|im)_)?\//.test(pathname)
     ? `https://web.archive.org${pathname}`
     : `https://web.archive.org/web/${time}${timeFallback.slice(time.length)}/${url}`
 }
 
 const filterBody = body => body
   .replace(/https:\/\/web\.archive\.org\//ig, 'http://web.archive.org/')
+  .replace(/(https?:\/\/web\.archive\.org)?\/web\/\d+(\/|fw_\/)/g, '')
   .replace(/^[\s\t\r\n]+</i, '<')
   .replace(/(<head[^>]*>)(.|[\r\n])*<!-- End Wayback Rewrite JS Include -->/i, '$1')
   .replace(/(<html[^>]*>)(.|[\r\n])*<!-- End Wayback Rewrite JS Include -->/i, '$1')
