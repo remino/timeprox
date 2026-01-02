@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const nodemon = require('nodemon');
 
 nodemon({

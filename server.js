@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const charset = require('charset')
 const http = require('http')
 const { decode, encode } = require('iconv-lite')
