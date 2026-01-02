@@ -1,27 +1,30 @@
 {
-  "name": "timeprox",
-  "version": "0.5.4",
-  "homepage": "https://github.com/remino/timeprox#readme",
-  "description": "HTTP proxy to the Wayback Machine (web.archive.org) for retro browsers",
-  "author": "Rémi (https://remino.net)",
-  "license": "ISC",
-  "private": true,
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
-  },
-  "devDependencies": {
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-plugin-import": "^2.20.2",
-    "nodemon": "^2.0.20"
-  },
-  "dependencies": {
-    "charset": "^1.0.1",
-    "http-proxy": "^1.18.1",
-    "iconv-lite": "^0.5.1",
-    "node-fetch-cjs": "^3.2.10",
-    "pem": "^1.14.4"
-  }
+	"name": "timeprox",
+	"version": "0.5.4",
+	"homepage": "https://github.com/remino/timeprox#readme",
+	"description": "HTTP proxy to the Wayback Machine (web.archive.org) for retro browsers",
+	"author": "Rémino Rem (https://remino.net)",
+	"license": "ISC",
+	"private": true,
+	"main": "server.js",
+	"bin": {
+		"timeprox": "./server.js"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node app.js"
+	},
+	"devDependencies": {
+		"eslint": "^6.8.0",
+		"eslint-config-airbnb-base": "^14.1.0",
+		"eslint-plugin-import": "^2.20.2",
+		"nodemon": "^2.0.20"
+	},
+	"dependencies": {
+		"charset": "^1.0.1",
+		"http-proxy": "^1.18.1",
+		"iconv-lite": "^0.5.1",
+		"node-fetch-cjs": "^3.2.10",
+		"pem": "^1.14.4"
+	}
 }
